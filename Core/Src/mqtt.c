@@ -216,6 +216,15 @@ void MQTT_App_Init(void) {
 }
 
 void MQTT_App_Process(void) {
+    // Update PC13 LED based on physical Ethernet link status (High when link is UP, Low when link is DOWN)
+    uint8_t link_status = PHY_LINK_OFF;
+    ctlwizchip(CW_GET_PHYLINK, &link_status);
+    if (link_status == PHY_LINK_ON) {
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+    } else {
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+    }
+
     // Maintain Connection
     if (!mqtt_is_connected) {
         static uint32_t last_reconnect_time = 0;
@@ -227,7 +236,6 @@ void MQTT_App_Process(void) {
                 mqtt_connect_to_broker();
             } else {
                 printf("MQTT: Link is down. Reconnect deferred.\r\n");
-                HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
             }
         }
         return;
