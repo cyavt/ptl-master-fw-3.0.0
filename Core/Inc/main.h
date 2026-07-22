@@ -72,7 +72,7 @@ void Error_Handler(void);
 #define MAX_SLAVE_DEVICES             50     // Số lượng thiết bị Slave tối đa hỗ trợ
 #define MAX_SLAVE_ARRAY_SIZE          (MAX_SLAVE_DEVICES + 1) // Kích thước mảng cho ID Slave (từ 1 đến MAX)
 
-#define MODBUS_STANDARD_TIMEOUT_MS    1000    // Thời gian chờ phản hồi Modbus tiêu chuẩn (ms)
+#define MODBUS_STANDARD_TIMEOUT_MS    200     // Thời gian chờ phản hồi Modbus tiêu chuẩn (ms)
 #define MODBUS_FAST_TIMEOUT_MS        50      // Thời gian chờ phản hồi Modbus nhanh khi quét hoặc ping (ms)
 #define MODBUS_TRANSACTION_DELAY_MS   20      // Độ trễ giữa các lượt truyền Modbus thông thường (ms)
 #define MODBUS_SCAN_YIELD_DELAY_MS    5       // Độ trễ giữa các lượt quét ID để nhường thời gian CPU (ms)

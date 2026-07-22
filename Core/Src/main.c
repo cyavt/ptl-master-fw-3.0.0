@@ -610,6 +610,7 @@ void StartModbusAppTask(void *argument)
       
       for (int i = 0; i < registered_slave_count; i++)
       {
+        if (display_updated) break; // Break early if we have a pending display update command
         uint8_t registered_id = registered_slave_ids[i];
         
         // Check if registered_id is currently online
