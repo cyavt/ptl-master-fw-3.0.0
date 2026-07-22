@@ -63,8 +63,8 @@ extern volatile uint16_t display_padding;
 extern volatile uint16_t display_state;
 extern volatile bool display_updated;
 extern volatile uint8_t display_target_id;
-extern slave_display_t slave_registry[131];
-extern uint8_t online_slave_ids[130];
+extern slave_display_t slave_registry[MAX_SLAVE_ARRAY_SIZE];
+extern uint8_t online_slave_ids[MAX_SLAVE_DEVICES];
 extern volatile int online_slave_count;
 
 // Example callback function for subscribed topics
@@ -87,9 +87,9 @@ void on_message_received(MessageData* md) {
     int state = get_json_int_value(payload, "state", -1);
     int pad = get_json_int_value(payload, "pad", -1);
 
-    // If ID is missing or invalid, reject the message
-    if (id == -1) {
-        printf("MQTT: Rejected message, 'id' field is missing or invalid.\r\n");
+    // If ID is missing, invalid or out of range, reject the message
+    if (id < 0 || id > MAX_SLAVE_DEVICES) {
+        printf("MQTT: Rejected message, 'id' field (%d) is out of bounds (0-%d).\r\n", id, MAX_SLAVE_DEVICES);
         return;
     }
 
