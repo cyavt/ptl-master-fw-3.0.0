@@ -444,6 +444,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(INT_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : CONF_Pin */
+  GPIO_InitStruct.Pin = CONF_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(CONF_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : BUZZER_Pin */
   GPIO_InitStruct.Pin = BUZZER_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;

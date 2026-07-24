@@ -65,6 +65,8 @@ void Error_Handler(void);
 #define RST_GPIO_Port GPIOB
 #define INT_Pin GPIO_PIN_1
 #define INT_GPIO_Port GPIOB
+#define CONF_Pin GPIO_PIN_15
+#define CONF_GPIO_Port GPIOA
 #define BUZZER_Pin GPIO_PIN_3
 #define BUZZER_GPIO_Port GPIOB
 
