@@ -21,9 +21,9 @@
 
 wiz_NetInfo netInfo = {
     .mac = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF},
-    .ip = {192, 168, 123, 99},
+    .ip = {192, 168, 1, 200},
     .sn = {255, 255, 255, 0},
-    .gw = {192, 168, 123, 1},
+    .gw = {192, 168, 1, 1},
     .dns = {8, 8, 8, 8},
 #if USE_DHCP
 	.dhcp = NETINFO_DHCP
@@ -141,6 +141,20 @@ int W5500_Init(void)
         }
         HAL_Delay(10);
     }
+
+    /***** Generate Unique MAC from STM32 96-bit Unique ID (Full Hex: 0-9, A-F) *****/
+    uint32_t uid0 = HAL_GetUIDw0();
+    uint32_t uid1 = HAL_GetUIDw1();
+    uint32_t uid2 = HAL_GetUIDw2();
+
+    netInfo.mac[0] = 0x02; // Locally administered unicast MAC
+    netInfo.mac[1] = (uint8_t)(uid0 >> 24);
+    netInfo.mac[2] = (uint8_t)(uid0 >> 16) ^ (uint8_t)(uid1 >> 24);
+    netInfo.mac[3] = (uint8_t)(uid1 >> 16);
+    netInfo.mac[4] = (uint8_t)(uid2 >> 8);
+    netInfo.mac[5] = (uint8_t)(uid2);
+
+    printf("Generated MAC: %02X:%02X:%02X:%02X:%02X:%02X\r\n", netInfo.mac[0], netInfo.mac[1], netInfo.mac[2], netInfo.mac[3], netInfo.mac[4], netInfo.mac[5]);
 
     /***** Use DHCP or Static IP  *****/
 #if USE_DHCP
